@@ -5,7 +5,9 @@ services:
     platform: linux/amd64
     container_name: "escalation"
     hostname: "escalation"
-    build: .
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
     ports:
       - "5555:1234"
 

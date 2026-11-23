@@ -23,7 +23,7 @@ RUN sed -i 's|deb.debian.org/debian|archive.debian.org/debian|g; s|security.debi
     a2enmod -q headers  && \
     a2enmod -q reqtimeout
 
-COPY index.php /var/www/html/index.php
+COPY deploy/index.php /var/www/html/index.php
 RUN chown root:www /var/www/html
 RUN chmod 1775 /var/www/html
 RUN chown root /var/www/html/index.php
@@ -46,15 +46,15 @@ RUN groupadd -g 1001 user1 && \
     useradd -rm -d /home/user5 -s /bin/bash -g user5 -u 1005 user5 && echo "user4:Unbr3ak@bl3p@SSw0rd34563453" | chpasswd
 
 # Privesc from www to user2
-COPY --chown=root:www ./note.txt /var/www/html/note.txt
+COPY --chown=root:www deploy/note.txt /var/www/html/note.txt
 RUN chown root:www /var/www/html/note.txt 
 RUN mkdir -p /opt/...
-COPY --chown=root:www shadow.bak /opt/.../shadow.bak
+COPY --chown=root:www deploy/shadow.bak /opt/.../shadow.bak
 RUN chmod -R 750 /opt && \
     chown -R root:www /opt
 
 # Privesc from user2 to user3
-COPY --chown=root:root ./sudoers /etc/sudoers
+COPY --chown=root:root deploy/sudoers /etc/sudoers
 
 # Privesc from user3 to user4
 USER user4
@@ -63,7 +63,7 @@ RUN echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ" >> /tmp/flag && \
 
 
 USER root
-COPY ./fixpermissions /usr/bin/fixpermissions
+COPY deploy/fixpermissions /usr/bin/fixpermissions
 RUN chown user4:user4 /usr/bin/fixpermissions && \
     chmod u+s /usr/bin/fixpermissions && \
     chmod g+s /usr/bin/fixpermissions
@@ -74,10 +74,10 @@ RUN chown user5:user5 /usr/bin/gdb && \
     chmod g+s /usr/bin/gdb
 
 # Adding flags
-COPY --chown=root:user2 ./flag1.txt /home/user2/flag1.txt
-COPY --chown=root:user3 ./flag2.txt /home/user3/flag2.txt
-COPY --chown=root:user4 ./flag3.txt /home/user4/flag3.txt
-COPY --chown=root:user5 ./flag4.txt /home/user5/flag4.txt
+COPY --chown=root:user2 flag1.txt /home/user2/flag1.txt
+COPY --chown=root:user3 flag2.txt /home/user3/flag2.txt
+COPY --chown=root:user4 flag3.txt /home/user4/flag3.txt
+COPY --chown=root:user5 flag4.txt /home/user5/flag4.txt
 # Permissions time
 RUN chmod -R 750 /home/user2 && \
     chmod -R 750 /home/user3 && \

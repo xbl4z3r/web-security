@@ -1,7 +1,9 @@
 # How to run
 
+From the drill root:
+
 ```bash
-cd deploy && docker-compose up --build
+docker build -f deploy/Dockerfile .
 ```
 
 # Challenge name
